@@ -20,7 +20,7 @@ class MainActivity : AppCompatActivity() {
         textView = findViewById(R.id.tv)
         mainViewModel = ViewModelProvider(this)[MainViewModel::class.java]
         lifecycleScope.launch {
-            mainViewModel.phoneStateFlow.collectLatest {
+            mainViewModel.phoneMutableLiveData.observe(this@MainActivity) {
                 textView.text = getString(it.brandName)
             }
         }
