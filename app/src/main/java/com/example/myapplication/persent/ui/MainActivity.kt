@@ -5,6 +5,7 @@ import android.widget.TextView
 import androidx.appcompat.app.AppCompatActivity
 import androidx.lifecycle.ViewModelProvider
 import androidx.lifecycle.lifecycleScope
+import com.example.myapplication.MyApplication
 import com.example.myapplication.R
 import kotlinx.coroutines.flow.collectLatest
 import kotlinx.coroutines.launch
@@ -18,11 +19,19 @@ class MainActivity : AppCompatActivity() {
         super.onCreate(savedInstanceState)
         setContentView(R.layout.activity_main)
         textView = findViewById(R.id.tv)
-        mainViewModel = ViewModelProvider(this)[MainViewModel::class.java]
-        lifecycleScope.launch {
-            mainViewModel.phoneMutableLiveData.observe(this@MainActivity) {
-                textView.text = getString(it.brandName)
-            }
+//        mainViewModel = ViewModelProvider(this)[MainViewModel::class.java]
+//        lifecycleScope.launch {
+//            mainViewModel.phoneMutableLiveData.observe(this@MainActivity) {
+//                textView.text = getString(it.brandName)
+//            }
+//        }
+
+
+        val phoneApiClient=(application as MyApplication).appContainer
+        val mainViewModel2=phoneApiClient.mainFactory.create(MainViewModel::class.java)
+
+        mainViewModel2.phoneMutableLiveData.observe(this@MainActivity){
+            textView.text = getString(it.brandName)
         }
     }
 }
